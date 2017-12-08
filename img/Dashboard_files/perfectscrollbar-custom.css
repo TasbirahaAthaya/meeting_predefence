@@ -1,0 +1,20 @@
+.ps-container > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+    background-color: #415266;
+    border: 1px solid #19212b;
+    border-radius: @baseBorderRadius;
+    width: 6px;
+}
+.ps-container > .ps-scrollbar-y-rail {
+    width: 8px;
+}
+.ps-container:hover > .ps-scrollbar-y-rail:hover, .ps-container.ps-in-scrolling.ps-y:hover > .ps-scrollbar-y-rail  {
+    background-color: #546781;
+    opacity: .9;
+    width: 12px;
+}
+.ps-container:hover > .ps-scrollbar-y-rail:hover > .ps-scrollbar-y, .ps-container.ps-in-scrolling.ps-y:hover > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+    background-color: #415266;
+    border: 1px solid #19212b;
+    border-radius: @baseBorderRadius;
+    width: 7px;
+}

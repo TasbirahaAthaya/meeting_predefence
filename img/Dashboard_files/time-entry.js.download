@@ -1,0 +1,101 @@
+/**
+ *
+ */
+$(function(){
+    $.fn.timeEntry = function() {
+
+        return this.each(function() {
+            // object is the selected pagination element list
+            var $th = $(this);
+
+            $th.on("blur", function(){
+                var newTime = calculateTime($th);              
+                if($th.val().length) {//to prevent filling empty fiels as it has placeholder
+                    $th.val(newTime.formatted);
+                }
+                if ($th.data("time-field")) {
+                    $($th.data("time-field")).val(newTime.minutes);
+                }
+            });
+
+            function str_pad_left(string, pad, length) {
+                return (new Array(length + 1).join(pad) + string).slice(-length);
+            }
+
+
+            /** FOR TESTING
+             $th.on("keyup", function(){
+                calculateTime($th);
+            });
+             */
+
+            // Initiate
+            if($th.val().length) {//to prevent filling empty fiels as it has placeholder
+                $th.val(calculateMinutes($th));
+            }
+
+            function calculateMinutes($th) {
+                var hours = 0;
+                var minutes = $($th.data("time-field")).val();
+                //var seconds = (minutes % 1).toFixed(2);
+                //minutes = minutes - seconds;
+
+
+                if (minutes > 59) {
+                    var tempHours = Math.floor(minutes / 60);
+                    minutes = minutes - tempHours * 60;
+                    hours += tempHours;
+                }
+                //seconds = seconds * 60;
+
+                return str_pad_left(hours, '0', 2) + ':' + str_pad_left(minutes, '0', 2);// + ':' + str_pad_left(seconds, '0', 2);
+            }
+
+            function calculateTime($th) {
+                var val = $th.val();
+                var valArr = val.split(":");
+
+                var $parent = $th.parents(".group");
+                // Handle error state
+                if (valArr.length > 2) {
+                    $parent.removeClass("error").addClass("error");
+                    if (!$parent.find(".error-message").length) {
+                        $th.after('<div class="error-message">Too many colons</div>');
+                    }
+                } else {
+                    $parent.removeClass("error");
+                    if ($parent.find(".error-message").length) {
+                        $parent.find(".error-message").remove();
+                    }
+
+                    // Lets parse
+                    var fullMinutes = 0;
+                    var hours = ( isNaN(parseInt(valArr[0])) ? 0 : parseInt(valArr[0]) );
+                    var minutes = ( isNaN(parseInt(valArr[1])) ? 0 : parseInt(valArr[1]) );
+
+                    // Clean negatives
+                    hours = ( hours < 0 ? 0 : hours );
+                    minutes = ( minutes < 0 ? 0 : minutes );
+
+                    if (minutes > 59) {
+                        var tempHours = Math.floor(minutes / 60);
+                        minutes = minutes - tempHours * 60;
+                        hours += tempHours;
+                    }
+
+                    fullMinutes += hours * 60;
+                    fullMinutes += minutes;
+                    //fullMinutes += Math.round((seconds / 60) * 10) / 10;
+
+                    return {
+                        formatted: str_pad_left(hours, '0', 2) + ':' + str_pad_left(minutes, '0', 2),
+                        minutes: fullMinutes
+                    };
+
+                }
+            }
+        });
+
+
+    };
+});

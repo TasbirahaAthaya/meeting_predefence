@@ -1,0 +1,16 @@
+$(document).ready(function(){
+    $(".projects .project").click(function(){
+        var btns_container = $(this).find(".project_btns_container");
+        if (!btns_container.is(":visible")) {
+            btns_container.show();
+        }
+    });
+});
+
+function deleteProject($elem) {
+    ajaxRequest($elem.data("fchref"), { no_refresh:true }, function() { 
+        $elem.parents("li.project").slideUp("slow").remove(); 
+        var msg = del_proj_success_msg || 'Project Successfully Deleted';
+        $(".flash_message").html(msg).slideDown().delay(2000).slideUp();
+    }, { "type":"GET" });
+}
