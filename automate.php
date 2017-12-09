@@ -124,14 +124,14 @@ if($f==1) {
             }
             else
                 $j++;
-            if($i==3 && $p==$j)
+            if($i==4 && $p==$j)
             {
                 echo $j;
-
+                break;
             }
-            break;
+
         }
-       
+
     }
 }
 ?>
