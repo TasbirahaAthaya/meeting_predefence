@@ -263,7 +263,7 @@ $error = $_FILES['file']['error'];
     $location = 'uploadBooks/';
 
     if  (move_uploaded_file($tmp_name, $location.$name)){
-        echo 'Uploaded';
+        echo "<script>alert(\"Successfully Uploaded!\");</script>";
 
         $d=date("Y-m-d");
         date_default_timezone_set("Asia/Dhaka");
@@ -275,7 +275,7 @@ $error = $_FILES['file']['error'];
         }
 
          else {
-          echo 'please choose a file';
+        echo 'Please choose a file!';
           }}
 
 
@@ -314,10 +314,12 @@ $error = $_FILES['file']['error'];
                     //echo $f_id;
 
 					echo "<form action='showfiles.php' method=\"POST\">"; echo "<ol id=\"myOL\" type=\"1\"><li>";
-					echo $fname;
+					//echo $fname;
+                    echo "<a href='download.php?nama=uploadBooks/".base64_decode($row['res_file'])
+                        ."' download>".base64_decode($row['res_file'])."</a> ";
 					echo"</li></ol></form>";
                     $f_id=$row['res_id'];
-                       echo "<a href='download.php?nama=uploadBooks/".base64_decode($row['res_file'])."' download>".base64_decode($row['res_file'])."</a> ";
+
            /* echo "<input  type=image src=img/delete.png alt=\"Submit feedback\" name=\"submit2\" value=\"Delete\"
 	       style=\"background-color:;margin-left:10px; margin-top:0px; height:10px; \"></form>";
             if(isset($_POST['submit2']))
@@ -335,7 +337,7 @@ $error = $_FILES['file']['error'];
             }*/
 					?>
 					</div>
-                <a href="uploadBooks/<?php echo $row['res_file'];?>" target="_blank">view</a>
+                <a href="uploadBooks/<?php echo $row['res_file'];?>" target="_blank"></a>
             </div>
             <?php } ?>
             <script>
@@ -358,7 +360,7 @@ $error = $_FILES['file']['error'];
                     close[i1].onclick = function() {
                         var div = this.parentElement;
                         div.style.display = "none";
-                        // function below will run clear.php?h=michael
+                        // function below will run clear.php?h=count,id=rid
                         $.ajax({
                             type: "GET",
                             url: "clear.php" ,
@@ -379,12 +381,52 @@ $error = $_FILES['file']['error'];
         </div>
 
     </div>
-<!--end of show files-->
+<!--end of show resolution files-->
 </div>
 <br></br>
 
 
-<div class="scroll" ><h3 style="margin-left:20px"><b>Agenda</b></h3></div>
+<div class="scroll" >
+    <!--show agenda files-->
+    <div class="container">
+        <h3><b>Agenda</b></h3>
+
+        <div class="row" style="margin-left:20px">
+            <?php
+            $sql_ag = "SELECT distinct ag_id,ag_file FROM agenda where ag_file!='' && meeting_id='$m_id' ";
+            $result_ag = mysqli_query($mysqli,$sql_ag);
+            $c=0;
+            while($row = mysqli_fetch_assoc($result_ag))
+            {
+                $ag_name=base64_decode($row['ag_file']);
+               // base64_decode( $row['ag_size']);
+               // base64_decode( $row['ag_type']);
+                ?>
+                <div class="">
+                    <?php $ag_name;?>
+                    <div class="">
+                        <?php
+
+                        //echo $f_id;
+
+                        echo "<form action='showfiles.php' method=\"POST\">"; echo "<ol id=\"myOL\" type=\"1\"><li>";
+                        //echo $fname;
+                        echo "<a href='download.php?nama=uploads/".base64_decode($row['ag_file'])
+                            ."' download>".base64_decode($row['ag_file'])."</a> ";
+                        echo"</li></ol></form>";
+                        $f_id=$row['ag_id'];
+
+                        ?>
+                    </div>
+                    <a href="uploads/<?php echo $row['ag_file'];?>" target="_blank"></a>
+                </div>
+            <?php } ?>
+
+        </div>
+
+    </div>
+    <!--end of show agenda files-->
+</div>
 <br></br>
 <div class="scroll" ><h3 style="margin-left:20px"><b>Follow-up</b></h3></div>
 <br></br>

@@ -4,11 +4,11 @@ include 'db.php';
 $a[1]="h1";
 $a[2]="h2";
 $a[3]="h3";
-$t1="01:00:00";
-$t2="02:00:00";
+$stime="01:00:00";
+$etime="02:00:00";
 $f=0;
 $c=0;
-$dur=$t2-$t1;
+$dur=$etime-$stime;
 //echo $dur;
 $j="08:00:00";
 for($i=1;$j<="15:00:00";$i++)
@@ -44,12 +44,12 @@ for ($i = 1; $i <4; $i++) {
             $qry1 = "SELECT stime,etime FROM meeting where M_id='$m' ";
             $result1 = mysqli_query($mysqli, $qry1);
             while ($row1 = mysqli_fetch_assoc($result1)) {
-                if($t1>="01:00:00" && $t1<="03:00:00") {
-                    $t1 = $t1 + "12:00:00";
-                  //  echo $t1;
+                if($stime>="01:00:00" && $stime<="03:00:00") {
+                    $stime = $stime + "12:00:00";
+                  //  echo $stime;
                 }
-                if($t2>="01:00:00" && $t2<="03:00:00") {
-                    $t2 = $t2 + "12:00:00";
+                if($etime>="01:00:00" && $etime<="03:00:00") {
+                    $etime = $etime + "12:00:00";
                 }
                 if($row1["stime"]>="01:00:00" && $row1["stime"]<="03:00:00") {
                     $row1["stime"] = $row1["stime"] + "12:00:00";
@@ -84,7 +84,7 @@ for ($i = 1; $i <4; $i++) {
 
                 }
 
-                if(($t1>=$row1["stime"] && $t1<=$row1["etime"])||($t2>=$row1["stime"] && $t2<=$row1["etime"]))
+                if(($stime>=$row1["stime"] && $stime<=$row1["etime"])||($etime>=$row1["stime"] && $etime<=$row1["etime"]))
                 {
                   //  echo "conflict ";
                     $f=1;
@@ -126,7 +126,9 @@ if($f==1) {
                 $j++;
             if($i==4 && $p==$j)
             {
-                echo $j;
+                echo $s[0][$j-1];
+                echo " to ";
+                echo $s[0][$j];
                 break;
             }
 

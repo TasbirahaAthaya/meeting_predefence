@@ -32,7 +32,8 @@ if(!empty($_POST))
       $output .= '
        <tr>  
                          <td>' . $row["id"] . '</td>  
-                         <td><input type="button" name="view" value="view" id="' . $row["id"] . '" class="btn btn-info btn-xs view_data" /></td>  
+                         <td><input type="button" name="view" value="view" id="' . $row["id"] . '" 
+                         class="btn btn-info btn-xs view_data" /></td>  
                     </tr>
       ';
      }
